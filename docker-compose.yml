@@ -1,0 +1,67 @@
+version: "3"
+
+services:
+
+  angular:
+
+    image: demofront:1.0
+    ports: 
+        - "4200:80"   
+    networks:
+
+        - this-app
+      
+    depends_on:
+      
+        - mongo
+
+  api-server:
+
+    # image: backex1:latest
+
+    image: demoback:1.0
+  
+
+    ports:
+
+      - "8080:8080"
+
+    networks:
+
+      - this-app
+
+    depends_on:
+
+      - mongo
+
+  mongo:
+
+    image: mongo:3.6.19-xenial
+
+    restart: always
+
+
+
+    ports:
+
+      - "27017:27017"
+
+    networks:
+
+      - this-app
+
+    volumes:
+
+      - mongo-data:/data/db
+
+networks:
+
+  this-app:
+
+    driver: bridge
+
+volumes:
+
+  mongo-data:
+
+    driver: local
